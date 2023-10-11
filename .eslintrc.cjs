@@ -18,5 +18,6 @@ module.exports = {
         // 'vue/max-len': ['error', { code: 200 }],
         // 'vue/multi-word-component-names': 'off',
         'no-undef': 'off',
+        'vue/html-self-closing': 'off',
     },
 };
