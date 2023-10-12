@@ -32,8 +32,8 @@
             <span
               aria-hidden="true"
               :class="[color.class, 'rounded-full border border-black border-opacity-10',
-                checked ? 'h-10 w-10' : 'h-11 w-11']"
-              class="bg-gradient-to-b transition-all ease-in-out"
+                !checked ? 'scale-110' : '']"
+              class="bg-gradient-to-b transition-all ease-in-out h-11 w-11"
             />
           </div>
         </RadioGroupOption>
