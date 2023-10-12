@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white h-screen">
+  <div class="bg-white">
     <!-- Image gallery -->
     <HeroImage :image="scenesObj[0].nakedEyeImage.responsiveImage" />
     <div class="relative">
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Product info -->
-    <div class="h-screen max-w-2xl mx-4 mt-2 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+    <div class="max-w-2xl mx-4 mt-2 grid sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
       <!-- Options -->
       <div class="mt-4 lg:row-span-3 lg:mt-0">
         <RadioCard
@@ -28,8 +28,10 @@
           ]"
         />
       </div>
-      <RadioColours class="mt-4" />
-      <SpecsBox />
+      <RadioColours class="mt-4 min-h-[300px]" />
+      <div class="grid grid-cols-2 mb-2">
+        <SpecsBox :text="{title: 'VLT', tooltip: 'blabla', value: '14%'}" />
+      </div>
     </div>
   </div>
 </template>
