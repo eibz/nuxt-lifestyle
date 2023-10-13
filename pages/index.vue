@@ -1,7 +1,11 @@
 <template>
   <div class="bg-white">
     <!-- Image gallery -->
-    <HeroImage :image="image" />
+    <HeroImage
+      :image="image"
+      @pointerdown="showNakedEyeImage(true)"
+      @pointerup="showNakedEyeImage(false)"
+    />
     <div class="relative">
       <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
         <div class="h-11 w-11 bg-white rounded-lg relative">
@@ -15,7 +19,7 @@
         <div>
           <ScenePopover
             :scenes="scenesObj"
-            class=""
+            @scene-changed="selectedScene = $event"
           />
         </div>
       </div>
@@ -52,10 +56,29 @@ const scenesObj = JSON.parse(scenes.data.value);
 console.log(scenesObj);
 
 const selectedColour = ref(null);
+const selectedScene = ref(null);
 
 const image = ref(scenesObj[0].nakedEyeImage.responsiveImage);
 
+const showNakedEyeImage = (boolean) => {
+    if (boolean) {
+        image.value = selectedScene.value.nakedEyeImage.responsiveImage;
+    } else {
+        const keys = Object.keys(selectedScene.value.sceneImages);
+        const match = keys.find((el) => el.includes(selectedColour.value.name));
+        image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
+        console.log(selectedScene.value.sceneImages[match]);
+        // image.value = selectedScene.value.nakedEyeImage.responsiveImage;
+    }
+    console.log(boolean);
+};
+
 watch(selectedColour, () => {
-    // scenesObj
+    console.log(selectedColour.value);
+    showNakedEyeImage(false);
+});
+
+watch(selectedScene, () => {
+    showNakedEyeImage(false);
 });
 </script>

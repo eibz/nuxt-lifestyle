@@ -1,10 +1,8 @@
 <template>
   <div class="relative isolate overflow-hidden pt-[100%]">
     <div
-      :class="isHolding || showOverlay ? 'opacity-50' : 'opacity-0'"
+      :class="showOverlay ? 'opacity-50' : 'opacity-0'"
       class="h-full w-full absolute inset-0 bg-black flex select-none transition-opacity"
-      @pointerdown="isHolding = true"
-      @pointerup="isHolding = false"
       @contextmenu.prevent=""
     >
       <IconPoint class="text-white w-8 align-middle mx-auto h-full absolute inset-0" />
@@ -32,9 +30,9 @@ const props = defineProps({
     image: Object
 });
 
-const showOverlay = ref(true);
+// const emit = defineEmits(['click']);
 
-const isHolding = ref(false);
+const showOverlay = ref(true);
 
 onMounted(()=> {
     setTimeout(()=> {
