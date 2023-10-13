@@ -13,7 +13,7 @@
           :value="option"
         >
           <div
-            :class="[ checked ? 'bg-gradient-to-r from-[#5C0F99] via-[#3449B8] to-[#1799E1] text-white' : 'bg-white text-gray-900 hover:bg-gray-50', 'flex items-center justify-center py-3 px-3 text-sm font-semibold uppercase sm:flex-1']"
+            :class="[ checked ? 'sungod-gradient text-white' : 'bg-white text-gray-900 hover:bg-gray-50', 'flex items-center justify-center py-3 px-3 text-sm font-semibold uppercase sm:flex-1']"
             class="rounded-md focus:outline-none"
           >
             <RadioGroupLabel as="span">
@@ -32,7 +32,7 @@ import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
 
 const props = defineProps({
     options: Array
-})
+});
 
-const selected = ref(props.options[1])
+const selected = ref(props.options[1]);
 </script>

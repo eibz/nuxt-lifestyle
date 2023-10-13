@@ -1,10 +1,10 @@
 <template>
   <div class="bg-white">
     <!-- Image gallery -->
-    <HeroImage :image="scenesObj[0].nakedEyeImage.responsiveImage" />
+    <HeroImage :image="image" />
     <div class="relative">
       <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
-        <div class="h-11 w-11 bg-white rounded-md relative">
+        <div class="h-11 w-11 bg-white rounded-lg relative">
           <button>
             <Glasses />
           </button>
@@ -32,7 +32,10 @@
           ]"
         />
       </div>
-      <RadioColours class="mt-4 min-h-[300px]" />
+      <RadioColours
+        class="mt-4 min-h-[300px]"
+        @update:model-value="selectedColour = $event"
+      />
       <div class="flex justify-between mb-2">
         <SpecsBox :text="{title: 'VLT', tooltip: 'blabla', value: '14%'}" />
         <SpecsBox :text="{title: 'UV Protection', tooltip: 'blabla', value: '100%'}" />
@@ -47,4 +50,12 @@ const scenes = await useFetch('https://gist.githubusercontent.com/robwatkiss/09f
 console.log(products.data.value);
 const scenesObj = JSON.parse(scenes.data.value);
 console.log(scenesObj);
+
+const selectedColour = ref(null);
+
+const image = ref(scenesObj[0].nakedEyeImage.responsiveImage);
+
+watch(selectedColour, () => {
+    // scenesObj
+});
 </script>

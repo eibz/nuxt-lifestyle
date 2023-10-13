@@ -1,7 +1,7 @@
 <template>
   <div class="relative isolate overflow-hidden pt-[100%]">
     <div
-      :class="isHolding ? 'opacity-0' : 'opacity-50'"
+      :class="isHolding || showOverlay ? 'opacity-50' : 'opacity-0'"
       class="h-full w-full absolute inset-0 bg-black flex select-none transition-opacity"
       @pointerdown="isHolding = true"
       @pointerup="isHolding = false"
@@ -12,6 +12,8 @@
     <img
       :src="image.src"
       :alt="image.alt"
+      :srcset="image.srcSet"
+      :sizes="image.sizes"
       class="absolute inset-0 -z-10 h-full w-full object-cover"
     />
     <div

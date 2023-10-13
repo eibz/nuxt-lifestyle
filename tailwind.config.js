@@ -12,6 +12,7 @@ export default {
         extend: {
             colors: {
                 'gray-light': '#F2F2F5',
+                'off-black': '#1A1A1A',
             },
         },
     },

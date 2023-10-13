@@ -5,6 +5,9 @@
 @layer base {
     html {
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-      @apply text-[#1A1A1A];
+      @apply text-off-black;
+    }
+    .sungod-gradient {
+      @apply bg-gradient-to-r from-[#5C0F99] via-[#3449B8] to-[#1799E1]; 
     }
   }
