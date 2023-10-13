@@ -3,7 +3,6 @@
     <!-- Image gallery -->
     <HeroImage
       :image="image"
-      :swatch="swatch"
       @pointerdown="showNakedEyeImage(true)"
       @pointerup="showNakedEyeImage(false)"
     />
@@ -32,22 +31,23 @@
       <div class="mt-4 lg:row-span-3 lg:mt-0">
         <RadioCard
           :options="[
-            { name: 'Lens Type' },
-            { name: 'Lens Colour' },
+            { name: 'Lens Type', },
+            { name: 'Lens Colour', active: showColours },
           ]"
         />
       </div>
-      <RadioColours
+      <LensColours
+        v-if="showColours"
         class="mt-4 min-h-[300px]"
         :colours="colours"
         @update:model-value="selectedColour = $event"
       />
+      <LensType v-else />
       <div class="flex justify-between mb-2">
         <SpecsBox :text="{title: 'VLT', tooltip: 'blabla', value: '14%'}" />
         <SpecsBox :text="{title: 'UV Protection', tooltip: 'blabla', value: '100%'}" />
       </div>
     </div>
-    <!-- <Swipe /> -->
   </div>
 </template>
 <script setup>
@@ -69,9 +69,10 @@ console.log(scenesObj);
 
 const selectedColour = ref(null);
 const selectedScene = ref(null);
-const swatch = ref(null);
 
 const image = ref(scenesObj[0].nakedEyeImage.responsiveImage);
+
+const showColours = ref(true);
 
 const showNakedEyeImage = (boolean) => {
     if (boolean) {
@@ -80,23 +81,15 @@ const showNakedEyeImage = (boolean) => {
         const keys = Object.keys(selectedScene.value.sceneImages);
         const match = keys.find((el) => el.includes(selectedColour.value.name.toLowerCase().replace(/\s/g, '')));
         image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
-        // console.log(selectedScene.value.sceneImages[match]);
-        // image.value = selectedScene.value.nakedEyeImage.responsiveImage;
     }
 };
 
 watch(selectedColour, () => {
-    console.log(selectedColour.value);
     showNakedEyeImage(false);
-    swatch.value = findSwatch();
 });
 
 watch(selectedScene, () => {
     showNakedEyeImage(false);
 });
 
-const findSwatch = () => {
-    const colour = lenses.options.find(el => el.name.toLowerCase().includes(selectedColour.value.name));
-    return colour?.swatchStyle?.styles;
-};
 </script>

@@ -4,11 +4,12 @@
       v-model="selected"
       class="p-2"
     >
+      {{ selected }}
       <div class="grid grid-flow-col w-full gap-2">
         <RadioGroupOption
           v-for="option in options"
           :key="option.name"
-          v-slot="{ active, checked }"
+          v-slot="{ checked }"
           as="template"
           :value="option"
         >
@@ -31,8 +32,18 @@ import { ref } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
 
 const props = defineProps({
-    options: Array
+    options: Array,
 });
 
-const selected = ref(props.options[1]);
+const active = props.options.find(el => el.active === true);
+console.log(active);
+
+const selected = ref(props.options.find(el => el.active === true));
+
+// onMounted(()=>{
+//     selected.value = props.options.find(el => el.active === true);
+// });
+// watch(selected, () => {
+//     console.log(selected.value);
+// });
 </script>
