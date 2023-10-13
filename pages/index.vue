@@ -3,18 +3,22 @@
     <!-- Image gallery -->
     <HeroImage :image="scenesObj[0].nakedEyeImage.responsiveImage" />
     <div class="relative">
-      <div class="absolute bottom-4 left-4 h-11 w-11 bg-white rounded-md">
-        <button>
-          <Glasses />
-        </button>
+      <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
+        <div class="h-11 w-11 bg-white rounded-md relative">
+          <button>
+            <Glasses />
+          </button>
+        </div>
+        <div class="text-white">
+          Text Middle
+        </div>
+        <div>
+          <ScenePopover
+            :scenes="scenesObj"
+            class=""
+          />
+        </div>
       </div>
-      <div class="absolute bottom-4 text-center transform -translate-x-1/2 -translate-y-1/2 left-1/2">
-        Text Middle
-      </div>
-      <ScenePopover
-        :scenes="scenesObj"
-        class="absolute bottom-4 right-4"
-      />
     </div>
 
     <!-- Product info -->
@@ -23,16 +27,18 @@
       <div class="mt-4 lg:row-span-3 lg:mt-0">
         <RadioCard
           :options="[
-            { name: '4 GB' },
-            { name: '8 GB' },
+            { name: 'Lens Type' },
+            { name: 'Lens Colour' },
           ]"
         />
       </div>
       <RadioColours class="mt-4 min-h-[300px]" />
-      <div class="grid grid-cols-2 mb-2">
+      <div class="flex justify-between mb-2">
         <SpecsBox :text="{title: 'VLT', tooltip: 'blabla', value: '14%'}" />
+        <SpecsBox :text="{title: 'UV Protection', tooltip: 'blabla', value: '100%'}" />
       </div>
     </div>
+    <!-- <Swipe /> -->
   </div>
 </template>
 <script setup>

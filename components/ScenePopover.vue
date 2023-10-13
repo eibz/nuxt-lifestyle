@@ -1,21 +1,6 @@
 <template>
-  <!-- <div class="dropdown dropdown-top">
-    <label
-      tabindex="0"
-      class="btn m-1"
-    >Click</label>
-    <ul
-      tabindex="0"
-      class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-    >
-      <li><a>Item 1</a></li>
-      <li><a>Item 2</a></li>
-    </ul>
-  </div> -->
-
   <Popover
     v-slot="{ open }"
-    class="h-10 w-10"
   >
     <PopoverButton
       :class="open ? 'rounded-b-md' : 'rounded-md'"
@@ -28,7 +13,7 @@
       />
       <IconCross
         v-else
-        class="h-5 w-5 transition duration-150 ease-in-out group-hover:text-opacity-80"
+        class="h-5 w-5 transition duration-150 ease-in-out group-hover:text-opacity-80 text-[#1C1B1F]"
       />
     </PopoverButton>
 

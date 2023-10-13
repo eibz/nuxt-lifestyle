@@ -14,22 +14,20 @@
           >
             <IconTooltip class="h-3 w-3" />
           </PopoverButton>
-
-          <transition
-            enter-active-class="transition duration-200 ease-out"
-            enter-from-class="translate-y-1 opacity-0"
-            enter-to-class="translate-y-0 opacity-100"
-            leave-active-class="transition duration-150 ease-in"
-            leave-from-class="translate-y-0 opacity-100"
-            leave-to-class="translate-y-1 opacity-0"
+          <PopoverPanel
+            class="relative"
           >
-            <PopoverPanel
-              class="relative"
-            >
-              <div class="bg-black text-white text-xs rounded py-1 px-4 -right-7 bottom-7 z-10 origin-top absolute">
+            <div class="w-screen h-screen bg-black opacity-70 fixed top-0 left-0" />
+            <div class="-right-7 bottom-10 z-10 origin-top absolute">
+              <PopoverButton class="block ml-auto">
+                <IconCross
+                  class="h-5 w-5 text-gray-light mb-2"
+                />
+              </PopoverButton>
+              <div class="bg-gray-light text-xs rounded py-1 px-4">
                 {{ text.tooltip }}
                 <svg
-                  class="absolute text-black h-2 w-full left-0 top-full"
+                  class="absolute text-gray-light h-6 w-full left-0 top-full -m-px"
                   x="0px"
                   y="0px"
                   viewBox="0 0 255 255"
@@ -39,8 +37,8 @@
                   points="0,0 127.5,127.5 255,0"
                 /></svg>
               </div>
-            </PopoverPanel>
-          </transition>
+            </div>
+          </PopoverPanel>
         </Popover>
       </div>
     </div>

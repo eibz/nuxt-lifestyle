@@ -1,5 +1,14 @@
 <template>
   <div class="relative isolate overflow-hidden pt-[100%]">
+    <div
+      :class="isHolding ? 'opacity-0' : 'opacity-50'"
+      class="h-full w-full absolute inset-0 bg-black flex select-none transition-opacity"
+      @pointerdown="isHolding = true"
+      @pointerup="isHolding = false"
+      @contextmenu.prevent=""
+    >
+      <IconPoint class="text-white w-8 align-middle mx-auto h-full absolute inset-0" />
+    </div>
     <img
       :src="image.src"
       :alt="image.alt"
@@ -19,5 +28,15 @@
 <script setup>
 const props = defineProps({
     image: Object
-})
+});
+
+const showOverlay = ref(true);
+
+const isHolding = ref(false);
+
+onMounted(()=> {
+    setTimeout(()=> {
+        showOverlay.value = false;
+    }, 3000);
+});
 </script>

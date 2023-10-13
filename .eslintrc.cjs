@@ -19,5 +19,6 @@ module.exports = {
         // 'vue/multi-word-component-names': 'off',
         'no-undef': 'off',
         'vue/html-self-closing': 'off',
+        semi: ["error", "always"],
     },
 };
