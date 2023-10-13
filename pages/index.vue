@@ -3,6 +3,7 @@
     <!-- Image gallery -->
     <HeroImage
       :image="image"
+      :swatch="swatch"
       @pointerdown="showNakedEyeImage(true)"
       @pointerup="showNakedEyeImage(false)"
     />
@@ -38,6 +39,7 @@
       </div>
       <RadioColours
         class="mt-4 min-h-[300px]"
+        :colours="colours"
         @update:model-value="selectedColour = $event"
       />
       <div class="flex justify-between mb-2">
@@ -51,12 +53,23 @@
 <script setup>
 const products = await useFetch('https://www.sungod.co/products/9150/renegades?pdp=1');
 const scenes = await useFetch('https://gist.githubusercontent.com/robwatkiss/09f2461e02d372747dad5fe56ff2251f/raw/b942d9ba21e10889a6cfce639c1a12f6bb2bfa0e/Senior%2520Frontend%2520Developer%2520Task%2520-%2520Sample%2520Lens%2520Guide%2520Data.json');
+
+const { renegades } = products.data.value;
+const { parts } = renegades;
+const lenses = parts.find(el => el.name.includes('Lenses'));
+
+const excludeAllTypesRegex = new RegExp('Polarised|8KO|Prescription');
+const colours = lenses.options.filter(el => !el.name.match(excludeAllTypesRegex));
+
+console.log('colours', colours);
+
 console.log(products.data.value);
 const scenesObj = JSON.parse(scenes.data.value);
 console.log(scenesObj);
 
 const selectedColour = ref(null);
 const selectedScene = ref(null);
+const swatch = ref(null);
 
 const image = ref(scenesObj[0].nakedEyeImage.responsiveImage);
 
@@ -65,20 +78,25 @@ const showNakedEyeImage = (boolean) => {
         image.value = selectedScene.value.nakedEyeImage.responsiveImage;
     } else {
         const keys = Object.keys(selectedScene.value.sceneImages);
-        const match = keys.find((el) => el.includes(selectedColour.value.name));
+        const match = keys.find((el) => el.includes(selectedColour.value.name.toLowerCase().replace(/\s/g, '')));
         image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
-        console.log(selectedScene.value.sceneImages[match]);
+        // console.log(selectedScene.value.sceneImages[match]);
         // image.value = selectedScene.value.nakedEyeImage.responsiveImage;
     }
-    console.log(boolean);
 };
 
 watch(selectedColour, () => {
     console.log(selectedColour.value);
     showNakedEyeImage(false);
+    swatch.value = findSwatch();
 });
 
 watch(selectedScene, () => {
     showNakedEyeImage(false);
 });
+
+const findSwatch = () => {
+    const colour = lenses.options.find(el => el.name.toLowerCase().includes(selectedColour.value.name));
+    return colour?.swatchStyle?.styles;
+};
 </script>

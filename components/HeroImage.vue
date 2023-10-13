@@ -27,7 +27,7 @@
 </template>
 <script setup>
 const props = defineProps({
-    image: Object
+    image: Object,
 });
 
 // const emit = defineEmits(['click']);
