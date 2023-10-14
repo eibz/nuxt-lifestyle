@@ -1,13 +1,8 @@
 <template>
   <div>
-    <h3 class="text-sm font-medium text-gray-900">
-      {{ selectedType.name }}
-    </h3>
-
     <RadioGroup
       v-model="selectedType"
-      class="mt-4"
-      @update:modelValue="value => emit('update:modelValue', value)"
+      @update:model-value="value => emit('update:model-value', value)"
     >
       <RadioGroupLabel class="sr-only">
         Choose lens type
@@ -21,15 +16,17 @@
           :value="option"
         >
           <div
-            :class="[checked ? 'sungod-gradient' : 'bg-grey']"
-            class="relative -m-0.5 cursor-pointer rounded p-px focus:outline-none w-full h-16"
+            :class="[checked ? 'sungod-gradient p-0.5' : 'bg-grey p-px ']"
+            class="relative cursor-pointer rounded focus:outline-none w-full h-16"
           >
-            <div class="transition-all ease-in-out bg-white w-full h-full rounded-sm flex cursor-pointer items-center justify-center">
+            <div class="bg-white w-full h-full rounded-sm flex cursor-pointer items-center justify-center">
               <RadioGroupLabel
                 as="span"
-                class=""
               >
-                <img :src="`/icons/${option}.svg`" />
+                <img
+                  class="text-off-black h-3"
+                  :src="`/icons/${option.name}-dark.svg`"
+                />
               </RadioGroupLabel>
             </div>
           </div>
@@ -42,14 +39,10 @@
 <script setup>
 import { ref } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:model-value']);
 const props = defineProps({
     types: Array,
 });
 
-onMounted(() => {
-    emit('update:modelValue', selectedType.value);
-});
-
-const selectedType = ref(props.types[0]);
+const selectedType = ref();
 </script>

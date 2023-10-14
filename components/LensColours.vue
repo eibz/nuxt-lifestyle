@@ -1,13 +1,12 @@
 <template>
   <div>
     <h3 class="text-sm font-medium text-gray-900">
-      {{ selectedColour.name }}
+      <slot />
     </h3>
-
     <RadioGroup
       v-model="selectedColour"
       class="mt-4"
-      @update:modelValue="value => emit('update:modelValue', value)"
+      @update:model-value="value => emit('update:model-value', value)"
     >
       <RadioGroupLabel class="sr-only">
         Choose a color
@@ -22,7 +21,7 @@
         >
           <div
             :class="[checked ? 'ring-1 ring-black' : '']"
-            class="relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-1 focus:outline-none"
+            class="relative flex cursor-pointer items-center justify-center rounded-full p-1 focus:outline-none"
           >
             <RadioGroupLabel
               as="span"
@@ -46,14 +45,14 @@
 <script setup>
 import { ref } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:model-value']);
 const props = defineProps({
     colours: Array,
 });
 
+const selectedColour = ref(props.colours[0]);
 onMounted(() => {
-    emit('update:modelValue', selectedColour.value);
+    emit('update:model-value', selectedColour.value);
 });
 
-const selectedColour = ref(props.colours[0]);
 </script>

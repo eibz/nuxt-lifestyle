@@ -30,13 +30,14 @@ const props = defineProps({
     image: Object,
 });
 
-// const emit = defineEmits(['click']);
+const emit = defineEmits(['timeout']);
 
 const showOverlay = ref(true);
 
 onMounted(()=> {
     setTimeout(()=> {
         showOverlay.value = false;
+        emit('timeout');
     }, 3000);
 });
 </script>

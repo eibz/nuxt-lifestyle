@@ -3,8 +3,9 @@
     <!-- Image gallery -->
     <HeroImage
       :image="image"
-      @pointerdown="showNakedEyeImage(true)"
-      @pointerup="showNakedEyeImage(false)"
+      @pointerdown="switchImage(true)"
+      @pointerup="switchImage(false)"
+      @timeout="instructionsShown = false"
     />
     <div class="relative">
       <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
@@ -14,7 +15,13 @@
           </button>
         </div>
         <div class="text-white">
-          Text Middle
+          <span v-if="instructionsShown">Press & Hold</span>
+          <img
+            v-else-if="selectedLens && !nakedImageShown"
+            class="h-4"
+            :src="`/icons/${selectedLens.name}-light.svg`"
+          />
+          <span v-else-if="nakedImageShown && !instructionsShown">Naked eye</span>
         </div>
         <div>
           <ScenePopover
@@ -34,21 +41,32 @@
           :options="lensTabs"
         />
       </div>
-      <LensColours
-        v-show="lensTabs.some(el => el.name.includes('Colour') && el.active)"
-        v-model="selectedColour"
-        class="mt-4 min-h-[300px]"
-        :colours="colours"
-      />
-      <div>
-        <LensType
-          v-show="lensTabs.some(el => el.name.includes('Type') && el.active)"
-          :types="lensTypes"
-        />
+      <div class="mt-4 min-h-[200px]">
+        <div
+          v-show="selectedTab.name.includes('Type')"
+        >
+          <LensType
+            v-model="selectedLens"
+            :types="lensTypes"
+          />
+          <div class="mt-4 mb-8">
+            {{ selectedProduct?.optionTech?.displaySubtitle }}
+          </div>
+        </div>
+        <LensColours
+          v-show="selectedTab.name.includes('Colour')"
+          v-model="selectedColour"
+          :colours="lensColours"
+        >
+          <span
+            v-if="selectedProduct"
+            v-html="selectedProduct.name"
+          />
+        </LensColours>
       </div>
-      <div class="flex justify-between mb-2">
-        <SpecsBox :text="{title: 'VLT', tooltip: 'blabla', value: '14%'}" />
-        <SpecsBox :text="{title: 'UV Protection', tooltip: 'blabla', value: '100%'}" />
+      <div class="flex justify-between my-4 flex-wrap">
+        <SpecsBox :text="{title: 'VLT', tooltip: `Couldn't find anything from the API to put here :(`, value: `${selectedProduct?.vlt} %`} " />
+        <SpecsBox :text="{title: 'UV Protection', tooltip: `Couldn't find anything from the API to put here :(`, value: '100%'}" />
       </div>
     </div>
   </div>
@@ -62,51 +80,61 @@ const { parts } = renegades;
 const lenses = parts.find(el => el.name.includes('Lenses'));
 
 const excludeAllTypesRegex = new RegExp('Polarised|8KO|Prescription');
-const colours = lenses.options.filter(el => !el.name.match(excludeAllTypesRegex));
-const lensTypes = ['4ko', '4kop', '8ko', '8kop'];
+const lensColours = lenses.options.filter(el => !el.name.match(excludeAllTypesRegex));
+const lensTypes = [
+    { name:'4ko', skuPrefix:'rgle_N' },
+    { name:'4kop', skuPrefix:'rgle_P' },
+    { name:'8ko', skuPrefix:'rgle_8' },
+    { name:'8kop', skuPrefix:'rgle_8P' },
+];
 
-const lensTabs = ref([
+const lensTabs = [
     { name: 'Lens Type', active: false },
     { name: 'Lens Colour', active: true },
-]);
+];
 
-const selectedTab = ref(null);
+const selectedTab = ref(lensTabs.find(el => el.active));
 
-watch(selectedTab, ()=> {
-    lensTabs.value.forEach(el => {
-        if (el.name === selectedTab.value.name) {
-            el.active = true;
-            return;
-        }
-        el.active = false;
-    });
-});
 
 console.log(products.data.value);
 const scenesObj = JSON.parse(scenes.data.value);
 console.log(scenesObj);
+console.log(lenses);
 
 const selectedColour = ref(null);
+const selectedLens = ref(null);
 const selectedScene = ref(null);
 
-const image = ref(scenesObj[0].nakedEyeImage.responsiveImage);
-
-const showNakedEyeImage = (boolean) => {
-    if (boolean) {
-        image.value = selectedScene.value.nakedEyeImage.responsiveImage;
-    } else {
-        const keys = Object.keys(selectedScene.value.sceneImages);
-        const match = keys.find((el) => el.includes(selectedColour.value.name.toLowerCase().replace(/\s/g, '')));
-        image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
-    }
-};
-
-watch(selectedColour, () => {
-    showNakedEyeImage(false);
+const selectedProduct = computed(() => {
+    const colourName = selectedColour.value?.name.toLowerCase().replace(/\s/g, '');
+    return lenses.options.find(el=> el.sku.includes(`${selectedLens.value?.skuPrefix}${colourName}`));
 });
 
-watch(selectedScene, () => {
-    showNakedEyeImage(false);
+const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
+const nakedImageShown = ref(false);
+
+const instructionsShown = ref(true);
+
+const switchImage = (showNakedEye) => {
+    if (showNakedEye) {
+        nakedImageShown.value = true;
+        image.value = selectedScene.value.nakedEyeImage.responsiveImage;
+        return;
+    }
+    nakedImageShown.value = false;
+    const keys = Object.keys(selectedScene.value.sceneImages);
+    let match = keys.find((el) => el.includes(selectedColour.value.name.toLowerCase().replace(/\s/g, '')));
+    if (selectedLens.value) {
+        match = keys.find((el) => el.includes(`${selectedLens.value.skuPrefix}${selectedColour.value.name.toLowerCase().replace(/\s/g, '')}`));
+    }
+    image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
+
+};
+
+watch([selectedColour, selectedLens], () => {
+    if (selectedColour.value && selectedScene.value) {
+        switchImage(false);
+    }
 });
 
 </script>
