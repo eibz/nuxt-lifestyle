@@ -3,18 +3,38 @@
     <!-- Image gallery -->
     <HeroImage
       :image="image"
+      class="bg-grey-light"
       @pointerdown="switchImage(true)"
       @pointerup="switchImage(false)"
       @timeout="instructionsShown = false"
-    />
+    >
+      <template
+        v-if="showGlasses"
+        #default
+      >
+        <GlassLensImage
+          :colour="selectedColour.name"
+        />
+      </template>
+    </HeroImage>
     <div class="relative">
       <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
-        <div class="h-14 w-14 bg-white rounded-lg relative">
-          <button>
-            <Glasses />
+        <FloatingCard class="overflow-hidden">
+          <button @click="showGlasses = !showGlasses">
+            <GlassLensImage
+              v-if="!showGlasses"
+              :colour="selectedColour?.name"
+            />
+            <img
+              v-else
+              :src="image.src"
+            />
           </button>
-        </div>
-        <div class="text-white">
+        </FloatingCard>
+        <div
+          v-if="!showGlasses"
+          class="text-white"
+        >
           <span v-if="instructionsShown">Press & Hold</span>
           <img
             v-else-if="selectedLens && !nakedImageShown"
@@ -23,7 +43,7 @@
           />
           <span v-else-if="nakedImageShown && !instructionsShown">Naked Eye</span>
         </div>
-        <div>
+        <div v-if="!showGlasses">
           <ScenePopover
             :scenes="scenesObj"
             @scene-changed="selectedScene = $event"
@@ -65,7 +85,13 @@
         </LensColours>
       </div>
       <div class="flex justify-between my-4 flex-wrap">
-        <SpecsBox :text="{title: 'VLT', tooltip: `Couldn't find anything from the API to put here :(`, value: `${selectedProduct?.vlt} %`} " />
+        <SpecsBox
+          :text="{
+            title: 'VLT',
+            tooltip: `Couldn't find anything from the API to put here :(`,
+            value: selectedProduct ? `${selectedProduct.vlt} %` : '-',
+          }"
+        />
         <SpecsBox :text="{title: 'UV Protection', tooltip: `Couldn't find anything from the API to put here :(`, value: '100%'}" />
       </div>
     </div>
@@ -114,6 +140,8 @@ const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
 const nakedImageShown = ref(false);
 const instructionsShown = ref(true);
 
+const showGlasses = ref(false);
+
 const switchImage = (showNakedEye) => {
     if (showNakedEye) {
         nakedImageShown.value = true;
@@ -122,9 +150,10 @@ const switchImage = (showNakedEye) => {
     }
     nakedImageShown.value = false;
     const keys = Object.keys(selectedScene.value.sceneImages);
-    let match = keys.find((el) => el.includes(selectedColour.value.name.toLowerCase().replace(/\s/g, '')));
+    let match = keys.find((el) => el.includes(formatColourName(selectedColour.value.name)));
     if (selectedLens.value) {
-        match = keys.find((el) => el.includes(`${selectedLens.value.skuPrefix}${selectedColour.value.name.toLowerCase().replace(/\s/g, '')}`));
+        formatColourName(selectedColour.value.name);
+        match = keys.find((el) => el.includes(`${selectedLens.value.skuPrefix}${formatColourName(selectedColour.value.name)}`));
     }
     image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
 

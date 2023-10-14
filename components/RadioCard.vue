@@ -27,7 +27,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
 
 const props = defineProps({
