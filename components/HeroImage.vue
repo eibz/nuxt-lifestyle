@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative isolate overflow-hidden pt-[100%]"
+    class="relative isolate overflow-hidden pt-[100%] md:pt-0"
     @click="detectDoubleClick"
   >
     <div
@@ -24,7 +24,7 @@
       :alt="image.alt"
       :srcset="image.srcSet"
       :sizes="image.sizes"
-      class="absolute inset-0 -z-10 h-full w-full object-cover"
+      class="absolute inset-0 -z-10 h-full w-full object-cover md:relative md:h-screen"
     />
   </div>
 </template>

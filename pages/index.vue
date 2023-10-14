@@ -1,59 +1,60 @@
 <template>
-  <div class="bg-white">
+  <div class="bg-white flex flex-col md:h-screen md:flex-row-reverse">
     <!-- Image gallery -->
-    <HeroImage
-      :image="image"
-      class="bg-grey-light cursor-pointer"
-      @pointerdown="switchImage(true)"
-      @pointerup="switchImage(false)"
-      @timeout="instructionsShown = false"
-    >
-      <template
-        v-if="showGlasses"
-        #default
+    <div class="md:flex-grow">
+      <HeroImage
+        :image="image"
+        class="bg-grey-light cursor-pointer"
+        @pointerdown="switchImage(true)"
+        @pointerup="switchImage(false)"
+        @timeout="instructionsShown = false"
       >
-        <GlassLensImage
-          :colour="selectedColour.name"
-        />
-      </template>
-    </HeroImage>
-    <div class="relative">
-      <div class="absolute bottom-7 w-full flex justify-between items-center px-7">
-        <FloatingCard class="overflow-hidden">
-          <button @click="showGlasses = !showGlasses">
-            <GlassLensImage
-              v-if="!showGlasses"
-              :colour="selectedColour?.name"
-            />
-            <img
-              v-else
-              :src="image.src"
-            />
-          </button>
-        </FloatingCard>
-        <div
-          v-if="!showGlasses"
-          class="text-white"
+        <template
+          v-if="showGlasses"
+          #default
         >
-          <span v-if="instructionsShown">Press & Hold</span>
-          <img
-            v-else-if="selectedLens && !nakedImageShown"
-            class="h-4"
-            :src="`/icons/${selectedLens.name}-light.svg`"
+          <GlassLensImage
+            :colour="selectedColour.name"
           />
-          <span v-else-if="nakedImageShown && !instructionsShown">Naked Eye</span>
-        </div>
-        <div v-if="!showGlasses">
-          <ScenePopover
-            :scenes="scenesObj"
-            @scene-changed="selectedScene = $event"
-          />
+        </template>
+      </HeroImage>
+      <div class="relative">
+        <div class="absolute bottom-7 w-full flex justify-between items-center px-7">
+          <FloatingCard class="overflow-hidden">
+            <button @click="showGlasses = !showGlasses">
+              <GlassLensImage
+                v-if="!showGlasses"
+                :colour="selectedColour?.name"
+              />
+              <img
+                v-else
+                :src="image.src"
+              />
+            </button>
+          </FloatingCard>
+          <div
+            v-if="!showGlasses"
+            class="text-white"
+          >
+            <span v-if="instructionsShown">Press & Hold</span>
+            <img
+              v-else-if="selectedLens && !nakedImageShown"
+              class="h-4"
+              :src="`/icons/${selectedLens.name}-light.svg`"
+            />
+            <span v-else-if="nakedImageShown && !instructionsShown">Naked Eye</span>
+          </div>
+          <div v-if="!showGlasses">
+            <ScenePopover
+              :scenes="scenesObj"
+              @scene-changed="selectedScene = $event"
+            />
+          </div>
         </div>
       </div>
     </div>
-
     <!-- Product info -->
-    <div class="mx-7 my-6 grid">
+    <div class="mx-7 my-6 grid items-start">
       <!-- Options -->
       <RadioCard
         v-model="selectedTab"
@@ -82,7 +83,7 @@
           />
         </LensColours>
       </div>
-      <div class="flex justify-between my-4 flex-wrap">
+      <div class="flex justify-between my-4 flex-wrap self-end">
         <SpecsBox
           :text="{
             title: 'VLT',
@@ -118,7 +119,6 @@ const lensTabs = [
 ];
 
 const selectedTab = ref(lensTabs.find(el => el.active));
-
 
 console.log(products.data.value);
 const scenesObj = JSON.parse(scenes.data.value);
