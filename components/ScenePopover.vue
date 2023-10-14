@@ -4,16 +4,16 @@
   >
     <PopoverButton
       :class="open ? 'rounded-b-lg' : 'rounded-lg'"
-      class="group inline-flex items-center bg-white p-3 text-base font-medium text-white focus:outline-none"
+      class="group inline-flex items-center justify-center bg-white h-14 w-14 text-base font-medium text-white focus:outline-none"
     >
       <IconLandscape
         v-if="!open"
-        class="h-5 w-5 transition duration-150 ease-in-out group-hover:text-opacity-80 text-off-black"
+        class="h-5 w-7 text-off-black"
         aria-hidden="true"
       />
       <IconCross
         v-else
-        class="h-5 w-5 transition duration-150 ease-in-out group-hover:text-opacity-80 text-off-black"
+        class="h-4 w-4 text-off-black"
       />
     </PopoverButton>
 
@@ -35,7 +35,7 @@
             <button
               v-for="scene of scenes"
               :key="scene.index"
-              class="h-9 w-9 flex items-center rounded transition duration-150 ease-in-out focus:outline-none overflow-hidden relative"
+              class="h-12 w-12 flex items-center rounded transition duration-150 ease-in-out focus:outline-none overflow-hidden relative"
               @click="selectedScene = scene"
             >
               <img
@@ -46,11 +46,11 @@
               />
               <div
                 v-if="scene.sceneName === selectedScene.sceneName"
-                class="absolute sungod-gradient w-9 h-9 opacity-70"
+                class="absolute sungod-gradient w-12 h-12 opacity-70"
               />
               <div
                 v-if="scene.sceneName === selectedScene.sceneName"
-                class="absolute w-9 h-9 flex items-center justify-center"
+                class="absolute w-12 h-12 flex items-center justify-center"
               >
                 <IconLandscape class="w-5 text-white" />
               </div>

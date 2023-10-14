@@ -9,7 +9,7 @@
     />
     <div class="relative">
       <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
-        <div class="h-11 w-11 bg-white rounded-lg relative">
+        <div class="h-14 w-14 bg-white rounded-lg relative">
           <button>
             <Glasses />
           </button>
@@ -21,7 +21,7 @@
             class="h-4"
             :src="`/icons/${selectedLens.name}-light.svg`"
           />
-          <span v-else-if="nakedImageShown && !instructionsShown">Naked eye</span>
+          <span v-else-if="nakedImageShown && !instructionsShown">Naked Eye</span>
         </div>
         <div>
           <ScenePopover
@@ -112,7 +112,6 @@ const selectedProduct = computed(() => {
 
 const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
 const nakedImageShown = ref(false);
-
 const instructionsShown = ref(true);
 
 const switchImage = (showNakedEye) => {
@@ -131,7 +130,7 @@ const switchImage = (showNakedEye) => {
 
 };
 
-watch([selectedColour, selectedLens], () => {
+watch([selectedColour, selectedLens, selectedScene], () => {
     if (selectedColour.value && selectedScene.value) {
         switchImage(false);
     }
