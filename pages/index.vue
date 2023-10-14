@@ -3,7 +3,7 @@
     <!-- Image gallery -->
     <HeroImage
       :image="image"
-      class="bg-grey-light"
+      class="bg-grey-light cursor-pointer"
       @pointerdown="switchImage(true)"
       @pointerup="switchImage(false)"
       @timeout="instructionsShown = false"
@@ -18,7 +18,7 @@
       </template>
     </HeroImage>
     <div class="relative">
-      <div class="absolute bottom-4 w-full flex justify-between items-center px-4">
+      <div class="absolute bottom-7 w-full flex justify-between items-center px-7">
         <FloatingCard class="overflow-hidden">
           <button @click="showGlasses = !showGlasses">
             <GlassLensImage
@@ -53,14 +53,12 @@
     </div>
 
     <!-- Product info -->
-    <div class="max-w-2xl mx-4 mt-2 grid sm:px-6 lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+    <div class="mx-7 my-6 grid">
       <!-- Options -->
-      <div class="mt-4 lg:row-span-3 lg:mt-0">
-        <RadioCard
-          v-model="selectedTab"
-          :options="lensTabs"
-        />
-      </div>
+      <RadioCard
+        v-model="selectedTab"
+        :options="lensTabs"
+      />
       <div class="mt-4 min-h-[200px]">
         <div
           v-show="selectedTab.name.includes('Type')"
