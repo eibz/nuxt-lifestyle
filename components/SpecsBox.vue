@@ -21,13 +21,13 @@
             <div class="-right-7 bottom-10 z-10 origin-top absolute">
               <PopoverButton class="block ml-auto">
                 <IconCross
-                  class="h-5 w-5 text-gray-light mb-2"
+                  class="h-5 w-5 text-grey-light mb-2"
                 />
               </PopoverButton>
-              <div class="bg-gray-light text-xs rounded py-1 px-4">
+              <div class="bg-grey-light text-xs rounded py-1 px-4">
                 {{ text.tooltip }}
                 <svg
-                  class="absolute text-gray-light h-6 w-full left-0 top-full -m-px"
+                  class="absolute text-grey-light h-6 w-full left-0 top-full -m-px"
                   x="0px"
                   y="0px"
                   viewBox="0 0 255 255"
@@ -53,5 +53,5 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 
 const props = defineProps({
     text: Object
-})
+});
 </script>

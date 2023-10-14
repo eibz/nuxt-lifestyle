@@ -9,15 +9,7 @@
     />
     <img
       class="StaticThreeSixtyFrame__img StaticThreeSixtyFrame__img--frame-14"
-      src="https://sg360.sungod.co/insecure/crop:2100:1500/resize:fill:1400/plain/gs://sg360/230406/Renegades/rgi_Bblue_014.png"
-    />
-    <img
-      class="StaticThreeSixtyFrame__img StaticThreeSixtyFrame__img--frame-14"
       src="https://sg360.sungod.co/insecure/crop:2100:1500/resize:fill:1400/plain/gs://sg360/230406/Renegades/rgle_purple_014.png"
-    />
-    <img
-      class="StaticThreeSixtyFrame__img StaticThreeSixtyFrame__img--frame-14"
-      src="https://sg360.sungod.co/insecure/crop:2100:1500/resize:fill:1400/plain/gs://sg360/220520/Renegades/rglg/rglg_P_014.png"
     />
   </div>
 </template>

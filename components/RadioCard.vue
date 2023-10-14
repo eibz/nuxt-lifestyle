@@ -2,10 +2,9 @@
   <div class="bg-gray-100 rounded-md">
     <RadioGroup
       v-model="selected"
-      class="p-2"
+      class="p-1"
     >
-      {{ selected }}
-      <div class="grid grid-flow-col w-full gap-2">
+      <div class="grid grid-flow-col w-full gap-1">
         <RadioGroupOption
           v-for="option in options"
           :key="option.name"
@@ -14,8 +13,8 @@
           :value="option"
         >
           <div
-            :class="[ checked ? 'sungod-gradient text-white' : 'bg-white text-gray-900 hover:bg-gray-50', 'flex items-center justify-center py-3 px-3 text-sm font-semibold uppercase sm:flex-1']"
-            class="rounded-md focus:outline-none"
+            :class="[ checked ? 'sungod-gradient text-white' : 'text-gray-900']"
+            class="rounded-md focus:outline-none flex items-center justify-center py-3 px-3 text-sm font-semibold uppercase sm:flex-1"
           >
             <RadioGroupLabel as="span">
               {{ option.name }}
@@ -33,17 +32,18 @@ import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
 
 const props = defineProps({
     options: Array,
+    modelValue: Object,
 });
 
-const active = props.options.find(el => el.active === true);
-console.log(active);
+const emit = defineEmits(['update:model-value']);
 
 const selected = ref(props.options.find(el => el.active === true));
 
-// onMounted(()=>{
-//     selected.value = props.options.find(el => el.active === true);
-// });
-// watch(selected, () => {
-//     console.log(selected.value);
-// });
+onMounted(()=>{
+    emit('update:model-value', selected.value);
+});
+
+watch(selected, () => {
+    emit('update:model-value', selected.value);
+});
 </script>

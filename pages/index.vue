@@ -30,19 +30,22 @@
       <!-- Options -->
       <div class="mt-4 lg:row-span-3 lg:mt-0">
         <RadioCard
-          :options="[
-            { name: 'Lens Type', },
-            { name: 'Lens Colour', active: showColours },
-          ]"
+          v-model="selectedTab"
+          :options="lensTabs"
         />
       </div>
       <LensColours
-        v-if="showColours"
+        v-show="lensTabs.some(el => el.name.includes('Colour') && el.active)"
+        v-model="selectedColour"
         class="mt-4 min-h-[300px]"
         :colours="colours"
-        @update:model-value="selectedColour = $event"
       />
-      <LensType v-else />
+      <div>
+        <LensType
+          v-show="lensTabs.some(el => el.name.includes('Type') && el.active)"
+          :types="lensTypes"
+        />
+      </div>
       <div class="flex justify-between mb-2">
         <SpecsBox :text="{title: 'VLT', tooltip: 'blabla', value: '14%'}" />
         <SpecsBox :text="{title: 'UV Protection', tooltip: 'blabla', value: '100%'}" />
@@ -60,8 +63,24 @@ const lenses = parts.find(el => el.name.includes('Lenses'));
 
 const excludeAllTypesRegex = new RegExp('Polarised|8KO|Prescription');
 const colours = lenses.options.filter(el => !el.name.match(excludeAllTypesRegex));
+const lensTypes = ['4ko', '4kop', '8ko', '8kop'];
 
-console.log('colours', colours);
+const lensTabs = ref([
+    { name: 'Lens Type', active: false },
+    { name: 'Lens Colour', active: true },
+]);
+
+const selectedTab = ref(null);
+
+watch(selectedTab, ()=> {
+    lensTabs.value.forEach(el => {
+        if (el.name === selectedTab.value.name) {
+            el.active = true;
+            return;
+        }
+        el.active = false;
+    });
+});
 
 console.log(products.data.value);
 const scenesObj = JSON.parse(scenes.data.value);
@@ -71,8 +90,6 @@ const selectedColour = ref(null);
 const selectedScene = ref(null);
 
 const image = ref(scenesObj[0].nakedEyeImage.responsiveImage);
-
-const showColours = ref(true);
 
 const showNakedEyeImage = (boolean) => {
     if (boolean) {

@@ -11,7 +11,8 @@ export default {
     theme: {
         extend: {
             colors: {
-                'gray-light': '#F2F2F5',
+                'grey-light': '#F2F2F5',
+                'grey': '#D5D8DA',
                 'off-black': '#1A1A1A',
             },
         },
