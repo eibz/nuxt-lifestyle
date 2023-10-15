@@ -39,6 +39,7 @@
 <script setup>
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
 const emit = defineEmits(['update:model-value']);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps({
     types: Array,
 });

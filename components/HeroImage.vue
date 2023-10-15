@@ -72,6 +72,7 @@
 </template>
 <script setup>
 import { ImgComparisonSlider } from '@img-comparison-slider/vue';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps({
     image: Object,
     nakedEyeImage: Object,

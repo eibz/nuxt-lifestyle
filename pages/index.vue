@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="bg-white flex flex-col md:h-screen md:flex-row-reverse">
     <!-- Image gallery -->

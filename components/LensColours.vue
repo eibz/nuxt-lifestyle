@@ -15,7 +15,7 @@
         <RadioGroupOption
           v-for="color in colours"
           :key="color.name"
-          v-slot="{ active, checked }"
+          v-slot="{ checked }"
           as="template"
           :value="color"
         >

@@ -20,5 +20,6 @@ module.exports = {
         'no-undef': 'off',
         'vue/html-self-closing': 'off',
         semi: ["error", "always"],
+        'vue/require-default-prop': 'off',
     },
 };
