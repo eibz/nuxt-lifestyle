@@ -20,7 +20,7 @@
       </HeroImage>
       <div class="relative">
         <div class="absolute bottom-7 w-full flex justify-between items-center px-7">
-          <FloatingCard class="overflow-hidden">
+          <FloatingCard class="overflow-hidden md:hidden">
             <button @click="showGlasses = !showGlasses">
               <GlassLensImage
                 v-if="!showGlasses"
@@ -34,7 +34,7 @@
           </FloatingCard>
           <div
             v-if="!showGlasses"
-            class="text-white"
+            class="text-white md:hidden"
           >
             <span v-if="instructionsShown">Press & Hold</span>
             <img
@@ -44,17 +44,27 @@
             />
             <span v-else-if="nakedImageShown && !instructionsShown">Naked Eye</span>
           </div>
+          <div class="text-white hidden md:block md:flex-1">
+            Naked eye
+          </div>
           <div v-if="!showGlasses">
             <ScenePopover
               :scenes="scenesObj"
               @scene-changed="selectedScene = $event"
             />
           </div>
+          <div class="hidden md:block md:flex-1">
+            <img
+              v-if="selectedLens"
+              class="h-4 md:ml-auto"
+              :src="`/icons/${selectedLens.name}-light.svg`"
+            />
+          </div>
         </div>
       </div>
     </div>
     <!-- Product info -->
-    <div class="mx-7 my-6 grid items-start">
+    <div class="px-7 py-6 grid items-start md:w-1/3 md:p-16">
       <!-- Options -->
       <RadioCard
         v-model="selectedTab"
@@ -135,6 +145,7 @@ const selectedProduct = computed(() => {
 });
 
 const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
+
 const nakedImageShown = ref(false);
 const instructionsShown = ref(true);
 

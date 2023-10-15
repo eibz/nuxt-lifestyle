@@ -5,7 +5,7 @@
   >
     <div
       :class="showOverlay ? 'opacity-50' : 'opacity-0'"
-      class="h-full w-full absolute inset-0 bg-black flex select-none transition-opacity"
+      class="h-full w-full absolute inset-0 bg-black flex select-none transition-opacity md:hidden"
       @contextmenu.prevent=""
     >
     </div>
@@ -13,24 +13,45 @@
       :class="{
         'opacity-0': !showPointIcon,
       }"
-      class="text-white w-8 align-middle mx-auto h-full absolute inset-0 transition"
+      class="text-white w-8 align-middle mx-auto h-full absolute inset-0 transition md:hidden"
     />
-    <slot
-      v-if="!!$slots.default"
-    />
-    <img
-      v-else
-      :src="image.src"
-      :alt="image.alt"
-      :srcset="image.srcSet"
-      :sizes="image.sizes"
-      class="absolute inset-0 -z-10 h-full w-full object-cover md:relative md:h-screen"
-    />
+    <div class="md:relative md:h-screen">
+      <slot
+        v-if="!!$slots.default"
+      />
+      <img
+        v-else
+        :src="image.src"
+        :alt="image.alt"
+        :srcset="image.srcSet"
+        :sizes="image.sizes"
+        class="absolute inset-0 -z-10 h-full w-full object-cover"
+      />
+    </div>
+    <ClientOnly placeholder="loading...">
+      <ImgComparisonSlider>
+        <!-- eslint-disable -->
+      <img
+        slot="first"
+        style="width: 100%"
+        src="https://img-comparison-slider.sneas.io/demo/images/before.webp"
+      />
+      <img
+        slot="second"
+        style="width: 100%"
+        src="https://img-comparison-slider.sneas.io/demo/images/after.webp"
+      />
+      <!-- eslint-enable -->
+      </ImgComparisonSlider>
+    </ClientOnly>
   </div>
 </template>
 <script setup>
+import { ImgComparisonSlider } from '@img-comparison-slider/vue';
 const props = defineProps({
     image: Object,
+    nakedEyeImage: Object,
+    showNakedEyeImage: Boolean,
 });
 
 const emit = defineEmits(['timeout']);
