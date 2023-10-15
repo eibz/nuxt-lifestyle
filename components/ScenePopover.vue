@@ -91,7 +91,6 @@ const selectedScene = ref(props.scenes[0]);
 
 watch(selectedScene, () => {
     emit('sceneChanged', selectedScene.value);
-    console.log(selectedScene.value);
 });
 
 onMounted(() => {

@@ -11,7 +11,7 @@
     </div>
     <IconPoint
       :class="{
-        'opacity-0': !showPointIcon,
+        'opacity-0': !showPointIcon || !!$slots.default,
       }"
       class="text-white w-8 align-middle mx-auto h-full absolute inset-0 transition md:hidden"
     />
@@ -98,9 +98,7 @@ const detectDoubleClick = () => {
     }
 
     dblClickCheck = true;
-
     timeout = setTimeout(function () {
-        console.log('timeout');
         dblClickCheck = false;
     }, 1000);
 };

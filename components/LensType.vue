@@ -25,7 +25,7 @@
               >
                 <img
                   class="text-off-black h-3"
-                  :src="`/icons/${option.name}-dark.svg`"
+                  :src="icons[`${option.name}-dark`]"
                 />
               </RadioGroupLabel>
             </div>
@@ -38,6 +38,7 @@
 
 <script setup>
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
+import { filename } from 'pathe/utils';
 const emit = defineEmits(['update:model-value']);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps({
@@ -45,4 +46,9 @@ const props = defineProps({
 });
 
 const selectedType = ref();
+
+const glob = import.meta.glob('@/assets/icons/*.svg', { eager: true });
+const icons = Object.fromEntries(
+    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
+);
 </script>

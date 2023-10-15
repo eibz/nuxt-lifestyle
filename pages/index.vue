@@ -2,7 +2,7 @@
 <template>
   <div class="bg-white flex flex-col md:h-screen md:flex-row-reverse">
     <!-- Image gallery -->
-    <div class="md:flex-grow overflow-hidden">
+    <div class="overflow-hidden md:flex-grow ">
       <HeroImage
         :image="image"
         :naked-eye-image="nakedEyeImage"
@@ -45,7 +45,7 @@
             <img
               v-else-if="selectedLens && !showNakedEyeImage"
               class="h-4"
-              :src="`/icons/${selectedLens.name}-light.svg`"
+              :src="icons[`${selectedLens.name}-light`]"
             />
             <span v-else-if="showNakedEyeImage && !instructionsShown">Naked Eye</span>
           </div>
@@ -62,7 +62,7 @@
             <img
               v-if="selectedLens"
               class="h-4 md:ml-auto"
-              :src="`/icons/${selectedLens.name}-light.svg`"
+              :src="icons[`${selectedLens.name}-light`]"
             />
           </div>
         </div>
@@ -118,9 +118,12 @@
   </div>
 </template>
 <script setup>
+import { filename } from 'pathe/utils';
+
 const products = await useFetch('https://www.sungod.co/products/9150/renegades?pdp=1');
 const scenes = await useFetch('https://gist.githubusercontent.com/robwatkiss/09f2461e02d372747dad5fe56ff2251f/raw/b942d9ba21e10889a6cfce639c1a12f6bb2bfa0e/Senior%2520Frontend%2520Developer%2520Task%2520-%2520Sample%2520Lens%2520Guide%2520Data.json');
 
+const scenesObj = JSON.parse(scenes.data.value);
 const { renegades } = products.data.value;
 const { parts } = renegades;
 const lenses = parts.find(el => el.name.includes('Lenses'));
@@ -140,11 +143,6 @@ const lensTabs = [
 ];
 
 const selectedTab = ref(lensTabs.find(el => el.active));
-
-console.log(products.data.value);
-const scenesObj = JSON.parse(scenes.data.value);
-console.log(scenesObj);
-console.log(lenses);
 
 const selectedColour = ref(null);
 const selectedLens = ref(null);
@@ -185,4 +183,8 @@ watch([selectedColour, selectedLens, selectedScene], () => {
     }
 });
 
+const glob = import.meta.glob('@/assets/icons/*.svg', { eager: true });
+const icons = Object.fromEntries(
+    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
+);
 </script>
