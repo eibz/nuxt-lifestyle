@@ -125,7 +125,6 @@ const { productsApi, scenesApi } = config.public;
 const products = await useFetch(productsApi);
 const scenes = await useFetch(scenesApi);
 
-const scenesObj = JSON.parse(scenes.data.value);
 const { renegades } = products.data.value;
 const { parts } = renegades;
 const lenses = parts.find(el => el.name.includes('Lenses'));
@@ -144,25 +143,28 @@ const lensTabs = [
     { name: 'Lens Colour', active: true },
 ];
 
-const selectedTab = ref(lensTabs.find(el => el.active));
+const scenesObj = JSON.parse(scenes.data.value);
+const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
 
+const selectedTab = ref(lensTabs.find(el => el.active));
 const selectedColour = ref(null);
 const selectedLens = ref(null);
 const selectedScene = ref(null);
+const showNakedEyeImage = ref(false);
+const instructionsShown = ref(true);
+const showGlasses = ref(false);
 
+// for dynamic images
+const glob = import.meta.glob('@/assets/icons/*.svg', { eager: true });
+const icons = Object.fromEntries(
+    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
+);
+
+const nakedEyeImage = computed(() => selectedScene.value?.nakedEyeImage?.responsiveImage);
 const selectedProduct = computed(() => {
     const colourName = selectedColour.value?.name.toLowerCase().replace(/\s/g, '');
     return lenses.options.find(el=> el.sku.includes(`${selectedLens.value?.skuPrefix}${colourName}`));
 });
-
-const nakedEyeImage = computed(() => selectedScene.value?.nakedEyeImage?.responsiveImage);
-
-const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
-
-const showNakedEyeImage = ref(false);
-const instructionsShown = ref(true);
-
-const showGlasses = ref(false);
 
 const getImageSku = () => {
     const keys = Object.keys(selectedScene.value.sceneImages);
@@ -185,8 +187,4 @@ watch([selectedColour, selectedLens, selectedScene], () => {
     }
 });
 
-const glob = import.meta.glob('@/assets/icons/*.svg', { eager: true });
-const icons = Object.fromEntries(
-    Object.entries(glob).map(([key, value]) => [filename(key), value.default])
-);
 </script>
