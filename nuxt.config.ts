@@ -3,7 +3,6 @@ export default defineNuxtConfig({
     devtools: { enabled: false },
     app: {
         baseURL: '/nuxt-lifestyle/',
-        buildAssetsDir: 'assets',
     },
     devServer: {
         port: 4500,
