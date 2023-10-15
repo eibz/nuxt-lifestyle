@@ -48,7 +48,10 @@
             class="w-full object-cover relative h-screen"
           />
         </template>
-        <ImgComparisonSlider class="w-full focus:outline-none">
+        <ImgComparisonSlider
+          class="w-full focus:outline-none"
+          style="--divider-color: transparent;"
+        >
           <!-- eslint-disable -->
           <img
             slot="first"
@@ -60,6 +63,7 @@
             class="h-screen object-cover w-full"
             :src="image.src"
           />
+          <IconDrag class="w-14" slot="handle" />
           <!-- eslint-enable -->
         </ImgComparisonSlider>
       </ClientOnly>

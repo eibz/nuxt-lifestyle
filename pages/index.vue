@@ -5,10 +5,10 @@
       <HeroImage
         :image="image"
         :naked-eye-image="nakedEyeImage"
-        :show-naked-eye-image="nakedImageShown"
+        :show-naked-eye-image="showNakedEyeImage"
         class="bg-grey-light cursor-pointer md:cursor-default"
-        @pointerdown="nakedImageShown = true"
-        @pointerup="nakedImageShown = false"
+        @pointerdown="showNakedEyeImage = true"
+        @pointerup="showNakedEyeImage = false"
         @timeout="instructionsShown = false"
       >
         <template
@@ -40,11 +40,11 @@
           >
             <span v-if="instructionsShown">Press & Hold</span>
             <img
-              v-else-if="selectedLens && !nakedImageShown"
+              v-else-if="selectedLens && !showNakedEyeImage"
               class="h-4"
               :src="`/icons/${selectedLens.name}-light.svg`"
             />
-            <span v-else-if="nakedImageShown && !instructionsShown">Naked Eye</span>
+            <span v-else-if="showNakedEyeImage && !instructionsShown">Naked Eye</span>
           </div>
           <div class="text-white hidden md:block md:flex-1">
             Naked eye
@@ -66,8 +66,14 @@
       </div>
     </div>
     <!-- Product info -->
-    <div class="px-7 py-6 grid items-start md:w-1/3 md:p-16">
-      <!-- Options -->
+    <div class="px-7 py-6 grid items-start md:w-1/3 md:p-16 md:min-w-[496px]">
+      <h1 class="hidden text-5xl md:block">
+        {{ renegades.name }}
+      </h1>
+      <GlassLensImage
+        class="hidden relative h-32 w-96 -translate-y-[10%] mx-auto my-16 md:block"
+        :colour="selectedColour?.name"
+      />
       <RadioCard
         v-model="selectedTab"
         :options="lensTabs"
@@ -95,7 +101,7 @@
           />
         </LensColours>
       </div>
-      <div class="flex justify-between my-4 flex-wrap self-end">
+      <div class="flex justify-between flex-wrap self-end">
         <SpecsBox
           :text="{
             title: 'VLT',
@@ -150,7 +156,7 @@ const nakedEyeImage = computed(() => selectedScene.value?.nakedEyeImage?.respons
 
 const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
 
-const nakedImageShown = ref(false);
+const showNakedEyeImage = ref(false);
 const instructionsShown = ref(true);
 
 const showGlasses = ref(false);
