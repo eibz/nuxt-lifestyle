@@ -48,19 +48,19 @@
             class="w-full object-cover relative h-screen"
           />
         </template>
-        <ImgComparisonSlider class="w-full ">
+        <ImgComparisonSlider class="w-full focus:outline-none">
           <!-- eslint-disable -->
-      <img
-        slot="first"
-        class="h-screen object-cover w-full"
-        :src="nakedEyeImage?.src"
-      />
-      <img
-        slot="second"
-        class="h-screen object-cover w-full"
-        :src="image.src"
-      />
-      <!-- eslint-enable -->
+          <img
+            slot="first"
+            class="h-screen object-cover w-full"
+            :src="nakedEyeImage?.src"
+          />
+          <img
+            slot="second"
+            class="h-screen object-cover w-full"
+            :src="image.src"
+          />
+          <!-- eslint-enable -->
         </ImgComparisonSlider>
       </ClientOnly>
     </div>

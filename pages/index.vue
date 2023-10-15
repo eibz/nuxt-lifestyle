@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white flex flex-col md:h-screen md:flex-row-reverse">
     <!-- Image gallery -->
-    <div class="md:flex-grow">
+    <div class="md:flex-grow overflow-hidden">
       <HeroImage
         :image="image"
         :naked-eye-image="nakedEyeImage"
