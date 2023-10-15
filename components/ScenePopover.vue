@@ -6,17 +6,29 @@
     <PopoverButton class="focus:outline-none">
       <FloatingCard
         class="inline-flex items-center justify-center text-base font-medium"
-        :class="open ? 'rounded-b-lg rounded-t-none md:rounded-l-none md:rounded-r-lg' : 'rounded-lg'"
+        :class="open ? 'rounded-b-lg rounded-t-none md:rounded-l-none md:rounded-r-lg w-14' : 'rounded-lg'"
       >
-        <IconLandscape
+        <template
+          #icon
+        >
+          <IconLandscape
+            v-if="!open"
+            class="h-5 w-7 text-off-black"
+            aria-hidden="true"
+          />
+          <IconCross
+            v-else
+            class="h-4 w-4 text-off-black"
+          />
+        </template>
+        <template
           v-if="!open"
-          class="h-5 w-7 text-off-black"
-          aria-hidden="true"
-        />
-        <IconCross
-          v-else
-          class="h-4 w-4 text-off-black"
-        />
+          #text
+        >
+          <div class="hidden md:inline-block">
+            Scene
+          </div>
+        </template>
       </FloatingCard>
     </PopoverButton>
 

@@ -15,7 +15,7 @@
           v-if="showGlasses"
           #default
         >
-          <GlassLensImage
+          <DynamicGlasses
             :colour="selectedColour.name"
           />
         </template>
@@ -23,16 +23,18 @@
       <div class="relative">
         <div class="absolute bottom-7 w-full flex justify-between items-center px-7">
           <FloatingCard class="overflow-hidden md:hidden">
-            <button @click="showGlasses = !showGlasses">
-              <GlassLensImage
-                v-if="!showGlasses"
-                :colour="selectedColour?.name"
-              />
-              <img
-                v-else
-                :src="image.src"
-              />
-            </button>
+            <template #icon>
+              <button @click="showGlasses = !showGlasses">
+                <DynamicGlasses
+                  v-if="!showGlasses"
+                  :colour="selectedColour?.name"
+                />
+                <img
+                  v-else
+                  :src="image.src"
+                />
+              </button>
+            </template>
           </FloatingCard>
           <div
             v-if="!showGlasses"
@@ -70,7 +72,7 @@
       <h1 class="hidden text-5xl md:block">
         {{ renegades.name }}
       </h1>
-      <GlassLensImage
+      <DynamicGlasses
         class="hidden relative h-32 w-96 -translate-y-[10%] mx-auto my-16 md:block"
         :colour="selectedColour?.name"
       />
