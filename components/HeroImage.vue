@@ -15,35 +15,55 @@
       }"
       class="text-white w-8 align-middle mx-auto h-full absolute inset-0 transition md:hidden"
     />
-    <div class="md:relative md:h-screen">
+    <div class="md:hidden">
       <slot
         v-if="!!$slots.default"
       />
-      <img
-        v-else
-        :src="image.src"
-        :alt="image.alt"
-        :srcset="image.srcSet"
-        :sizes="image.sizes"
-        class="absolute inset-0 -z-10 h-full w-full object-cover"
-      />
+      <div v-else>
+        <img
+          :src="image.src"
+          :alt="image.alt"
+          :srcset="image.srcSet"
+          :sizes="image.sizes"
+          class="absolute inset-0 -z-10 h-full w-full object-cover"
+        />
+        <img
+          :src="nakedEyeImage?.src"
+          :alt="nakedEyeImage?.alt"
+          :srcset="nakedEyeImage?.srcSet"
+          :sizes="nakedEyeImage?.sizes"
+          class="absolute inset-0 -z-10 h-full w-full object-cover transition-opacity"
+          :class="showNakedEyeImage ? 'opacity-100' : 'opacity-0'"
+        />
+      </div>
     </div>
-    <ClientOnly placeholder="loading...">
-      <ImgComparisonSlider>
-        <!-- eslint-disable -->
+    <div class="hidden md:block">
+      <ClientOnly>
+        <template #fallback>
+          <img
+            :src="image.src"
+            :alt="image.alt"
+            :srcset="image.srcSet"
+            :sizes="image.sizes"
+            class="w-full object-cover relative h-screen"
+          />
+        </template>
+        <ImgComparisonSlider class="w-full ">
+          <!-- eslint-disable -->
       <img
         slot="first"
-        style="width: 100%"
-        src="https://img-comparison-slider.sneas.io/demo/images/before.webp"
+        class="h-screen object-cover w-full"
+        :src="nakedEyeImage?.src"
       />
       <img
         slot="second"
-        style="width: 100%"
-        src="https://img-comparison-slider.sneas.io/demo/images/after.webp"
+        class="h-screen object-cover w-full"
+        :src="image.src"
       />
       <!-- eslint-enable -->
-      </ImgComparisonSlider>
-    </ClientOnly>
+        </ImgComparisonSlider>
+      </ClientOnly>
+    </div>
   </div>
 </template>
 <script setup>

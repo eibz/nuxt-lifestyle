@@ -4,9 +4,11 @@
     <div class="md:flex-grow">
       <HeroImage
         :image="image"
-        class="bg-grey-light cursor-pointer"
-        @pointerdown="switchImage(true)"
-        @pointerup="switchImage(false)"
+        :naked-eye-image="nakedEyeImage"
+        :show-naked-eye-image="nakedImageShown"
+        class="bg-grey-light cursor-pointer md:cursor-default"
+        @pointerdown="nakedImageShown = true"
+        @pointerup="nakedImageShown = false"
         @timeout="instructionsShown = false"
       >
         <template
@@ -144,6 +146,8 @@ const selectedProduct = computed(() => {
     return lenses.options.find(el=> el.sku.includes(`${selectedLens.value?.skuPrefix}${colourName}`));
 });
 
+const nakedEyeImage = computed(() => selectedScene.value?.nakedEyeImage?.responsiveImage);
+
 const image = ref(scenesObj[0].sceneImages.rgle_8smoke.image.responsiveImage);
 
 const nakedImageShown = ref(false);
@@ -151,21 +155,19 @@ const instructionsShown = ref(true);
 
 const showGlasses = ref(false);
 
-const switchImage = (showNakedEye) => {
-    if (showNakedEye) {
-        nakedImageShown.value = true;
-        image.value = selectedScene.value.nakedEyeImage.responsiveImage;
-        return;
-    }
-    nakedImageShown.value = false;
+const getImageSku = () => {
     const keys = Object.keys(selectedScene.value.sceneImages);
-    let match = keys.find((el) => el.includes(formatColourName(selectedColour.value.name)));
+    const colour = formatColourName(selectedColour.value.name);
+    let match = keys.find((el) => el.includes(colour));
     if (selectedLens.value) {
-        formatColourName(selectedColour.value.name);
-        match = keys.find((el) => el.includes(`${selectedLens.value.skuPrefix}${formatColourName(selectedColour.value.name)}`));
+        match = keys.find((el) => el.includes(`${selectedLens.value.skuPrefix}${colour}`));
     }
-    image.value = selectedScene.value.sceneImages[match].image.responsiveImage;
+    return match;
+};
 
+const switchImage = () => {
+    const sku = getImageSku();
+    image.value = selectedScene.value.sceneImages[sku].image.responsiveImage;
 };
 
 watch([selectedColour, selectedLens, selectedScene], () => {
